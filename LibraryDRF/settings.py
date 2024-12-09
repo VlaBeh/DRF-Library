@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'book',
-
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +129,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_AUTHENTICATION_CLASSES: (
    "rest_framework_simplejwt.authentication.JWTAuthentication",
 )
+
+AUTH_USER_MODEL = 'users.User'
