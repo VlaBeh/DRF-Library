@@ -1,24 +1,23 @@
 import stripe
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 
-def create_stripe_session(amount, borrowing_id):
+def create_stripe_session(borrowing):
+    amount = int(borrowing.book.daily_fee * 100)  # Stripe працює з копійками
     session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
+        payment_method_types=["card"],
         line_items=[{
-            'price_data': {
-                'currency': 'usd',
-                'product_data': {'name': f'Borrowing {borrowing_id}'},
-                'unit_amount': int(amount * 100),
+            "price_data": {
+                "currency": "usd",
+                "product_data": {"name": borrowing.book.title},
+                "unit_amount": amount,
             },
-            'quantity': 1,
+            "quantity": 1,
         }],
-        mode='payment',
-        success_url='http://localhost/success/',
-        cancel_url='http://localhost/cancel/',
+        mode="payment",
+        success_url="http://localhost:8000/payments/success/",
+        cancel_url="http://localhost:8000/payments/cancel/",
     )
-    return session.url
+    return session.id, session.url

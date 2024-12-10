@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_=2g60^v0h)9!-riy)cy+z2m2$p+in9$rg=+65^t33rit1#f$('
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'book',
     'users',
-    'borrowings'
+    'borrowings',
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,7 @@ DEFAULT_AUTHENTICATION_CLASSES: (
 )
 
 AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+   "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}

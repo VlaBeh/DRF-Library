@@ -20,6 +20,8 @@ from django.urls import path, include
 from book.views import BookViewSet
 from users.views import UserViewSet
 from borrowings.views import BorrowingViewSet
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 
 router = DefaultRouter()
 router.register('books', BookViewSet)
@@ -29,4 +31,7 @@ router.register('borrowings', BorrowingViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path("doc/", SpectacularAPIView.as_view(), name="schema"),
+    path("doc/swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("doc/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     ]
